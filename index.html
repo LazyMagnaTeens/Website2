@@ -67,29 +67,7 @@
   <!-- Main Content -->
   <main class="relative z-10 p-4 sm:p-8">
     <section id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Product Card 1 -->
-      <div class="bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card" data-name="Product 1">
-        <img src="product1.jpg" alt="Product 1" class="w-full h-48 object-cover" />
-        <div class="p-4">
-          <h2 class="text-xl font-bold">Product 1</h2>
-          <p class="mt-2">$10.00</p>
-          <a href="product1-details.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-            View Details
-          </a>
-        </div>
-      </div>
-      <!-- Product Card 2 -->
-      <div class="bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card" data-name="Product 2">
-        <img src="product2.jpg" alt="Product 2" class="w-full h-48 object-cover" />
-        <div class="p-4">
-          <h2 class="text-xl font-bold">Product 2</h2>
-          <p class="mt-2">$20.00</p>
-          <a href="product2-details.html" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-            View Details
-          </a>
-        </div>
-      </div>
-      <!-- Add more products as needed -->
+      <!-- Placeholder for Product Cards (will be added dynamically) -->
     </section>
   </main>
 
@@ -98,25 +76,55 @@
     <p>&copy; 2025 My Dropshipping Store. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript for Bubble Effects -->
+  <!-- JavaScript for Bubble Effects and Dynamic Product Creation -->
   <script>
-    function createBubble() {
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble';
-      bubble.style.left = `${Math.random() * window.innerWidth}px`;
-      const size = Math.random() * 50 + 20;
-      bubble.style.width = `${size}px`;
-      bubble.style.height = `${size}px`;
-      bubble.style.animationDuration = `${Math.random() * 10 + 5}s`;
-      document.getElementById('bubbles-container').appendChild(bubble);
-      setTimeout(() => {
-        bubble.remove();
-      }, 15000);
-    }
-    setInterval(createBubble, 500);
+    // Function to create a product card dynamically
+    function CreateProduct(title, price, image) {
+      // Create the product card
+      const productCard = document.createElement('div');
+      productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card";
+      productCard.setAttribute("data-name", title);
 
-    function searchProducts() {
-      const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+      // Create the product image
+      const img = document.createElement('img');
+      img.src = image;
+      img.alt = title;
+      img.className = "w-full h-48 object-cover";
+
+      // Create the product info container
+      const infoContainer = document.createElement('div');
+      infoContainer.className = "p-4";
+
+      // Create the product title
+      const productTitle = document.createElement('h2');
+      productTitle.className = "text-xl font-bold";
+      productTitle.innerText = title;
+
+      // Create the product price
+      const productPrice = document.createElement('p');
+      productPrice.className = "mt-2";
+      productPrice.innerText = `$${price}`;
+
+      // Create the "View Details" button
+      const viewDetailsButton = document.createElement('a');
+      viewDetailsButton.href = "#"; // Link to the product detail page
+      viewDetailsButton.className = "mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition";
+      viewDetailsButton.innerText = "View Details";
+
+      // Append all elements to the product card
+      infoContainer.appendChild(productTitle);
+      infoContainer.appendChild(productPrice);
+      infoContainer.appendChild(viewDetailsButton);
+      productCard.appendChild(img);
+      productCard.appendChild(infoContainer);
+
+      // Append the product card to the product grid
+      document.getElementById("products").appendChild(productCard);
+    }
+
+    // Listen for input events to trigger real-time product search
+    document.getElementById("searchInput").addEventListener("input", function() {
+      const searchQuery = this.value.toLowerCase();
       const productCards = document.querySelectorAll(".product-card");
 
       productCards.forEach(card => {
@@ -127,10 +135,13 @@
           card.style.display = "none"; // Hide the product
         }
       });
-    }
+    });
 
-    // Listen for input events to trigger real-time product search
-    document.getElementById("searchInput").addEventListener("input", searchProducts);
+    // Example: Creating products dynamically
+    CreateProduct("Product 1", 10.00, "product1.jpg");
+    CreateProduct("Product 2", 20.00, "product2.jpg");
+    CreateProduct("Product 3", 30.00, "product3.jpg");
+    CreateProduct("Yousef", 1000.00, "product4.jpg");
   </script>
 </body>
 </html>
