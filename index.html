@@ -40,13 +40,18 @@
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(-110vh); opacity: 0; }
     }
+    /* Glowy edge effect for product cards */
+    .glow-effect {
+      border: 2px solid #00aaff;
+      box-shadow: 0 0 10px 2px rgba(0, 170, 255, 0.5);
+    }
   </style>
 </head>
 <body class="relative">
   <!-- Bubbles Container -->
   <div id="bubbles-container" class="absolute inset-0 z-0"></div>
 
-  <!-- Header -->
+  <!-- Header with Search & Categories -->
   <header class="relative z-10 p-6">
     <div class="flex justify-center items-center">
       <!-- Search Bar -->
@@ -64,10 +69,10 @@
     </nav>
   </header>
 
-  <!-- Main Content -->
+  <!-- Main Content: Products Grid -->
   <main class="relative z-10 p-4 sm:p-8">
     <section id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Placeholder for Product Cards (will be added dynamically) -->
+      <!-- Product cards will be added here dynamically -->
     </section>
   </main>
 
@@ -76,13 +81,29 @@
     <p>&copy; 2025 My Dropshipping Store. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript for Bubble Effects and Dynamic Product Creation -->
+  <!-- JavaScript for Bubbles, Dynamic Product Creation, and Search -->
   <script>
+    // Function to create bubble effects in the background
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.style.left = `${Math.random() * window.innerWidth}px`;
+      const size = Math.random() * 50 + 20;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.animationDuration = `${Math.random() * 10 + 5}s`;
+      document.getElementById('bubbles-container').appendChild(bubble);
+      setTimeout(() => {
+        bubble.remove();
+      }, 15000);
+    }
+    setInterval(createBubble, 500);
+
     // Function to create a product card dynamically
     function CreateProduct(title, price, image, category) {
-      // Create the product card
+      // Create the product card container with glow effect
       const productCard = document.createElement('div');
-      productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card";
+      productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card glow-effect";
       productCard.setAttribute("data-name", title);
 
       // Create the product image
@@ -105,41 +126,38 @@
       productPrice.className = "mt-2";
       productPrice.innerText = `$${price}`;
 
-      // Create the product category
+      // Create the product category element
       const productCategory = document.createElement('p');
       productCategory.className = "mt-1 text-sm text-gray-600";
       productCategory.innerText = `Category: ${category}`;
 
       // Create the "View Details" button
       const viewDetailsButton = document.createElement('a');
-      viewDetailsButton.href = "#"; // Link to the product detail page
+      viewDetailsButton.href = "#"; // Link to the product detail page (update as needed)
       viewDetailsButton.className = "mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition";
       viewDetailsButton.innerText = "View Details";
 
-      // Append all elements to the product card
+      // Append elements to the product info container
       infoContainer.appendChild(productTitle);
       infoContainer.appendChild(productPrice);
       infoContainer.appendChild(productCategory);
       infoContainer.appendChild(viewDetailsButton);
+      
+      // Append the image and info container to the product card
       productCard.appendChild(img);
       productCard.appendChild(infoContainer);
 
-      // Append the product card to the product grid
+      // Append the product card to the products grid
       document.getElementById("products").appendChild(productCard);
     }
 
-    // Listen for input events to trigger real-time product search
+    // Real-time search functionality
     document.getElementById("searchInput").addEventListener("input", function() {
       const searchQuery = this.value.toLowerCase();
       const productCards = document.querySelectorAll(".product-card");
-
       productCards.forEach(card => {
         const productName = card.getAttribute("data-name").toLowerCase();
-        if (productName.includes(searchQuery)) {
-          card.style.display = "block"; // Show the product
-        } else {
-          card.style.display = "none"; // Hide the product
-        }
+        card.style.display = productName.includes(searchQuery) ? "block" : "none";
       });
     });
 
@@ -147,7 +165,7 @@
     CreateProduct("Smartphone", 300.00, "smartphone.jpg", "Electronics");
     CreateProduct("T-shirt", 20.00, "tshirt.jpg", "Clothing");
     CreateProduct("Lamp", 50.00, "lamp.jpg", "Home & Garden");
-    CreateProduct("Yousef", 10.00, "toycar.jpg", "Fetter Zyklop");
+    CreateProduct("Yousef", 10000.00, "toycar.jpg", "Zyklopishes Wesen, Furzbombe");
   </script>
 </body>
 </html>
