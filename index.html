@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Dropshipping Store</title>
+  <title>The Magnate Store</title>
   <!-- Favicon -->
   <link href="logo.png" rel="icon" type="image/png" />
   <!-- Tailwind CSS -->
@@ -17,12 +17,13 @@
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #0f4b8e, #2980b9, #8e44ad);
+      background: linear-gradient(to right, #0f4b8e, #2980b9); /* Blue shades */
       color: white;
       overflow-x: hidden;
       position: relative;
       min-height: 100vh;
     }
+
     /* Bubble animation */
     .bubble {
       position: absolute;
@@ -36,9 +37,25 @@
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(-110vh); opacity: 0; }
     }
+
     /* White glow effect for product cards */
     .glow-effect {
       box-shadow: 0px 0px 20px 8px rgba(255, 255, 255, 0.8);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    /* Add glow effect on hover */
+    .product-card:hover {
+      box-shadow: 0 0 30px 8px rgba(255, 255, 255, 0.6);
+      transform: scale(1.05);
+    }
+    
+    /* Modal styles */
+    #product-modal {
+      /* Hidden by default */
+      display: none;
+    }
+    #product-modal.active {
+      display: flex;
     }
   </style>
 </head>
@@ -69,6 +86,7 @@
   <!-- Main Content: Products Grid -->
   <main class="relative z-10 p-4 sm:p-8">
     <section id="products" class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+      <!-- Products will be added dynamically -->
     </section>
   </main>
 
@@ -83,6 +101,18 @@
     <p>&copy; 2025 My Dropshipping Store. All rights reserved.</p>
   </footer>
 
+  <!-- Product Modal -->
+  <div id="product-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-20">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
+      <button id="close-modal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+      <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
+      <img id="modal-image" src="" alt="Product Image" class="w-full h-48 object-cover rounded mb-4">
+      <p id="modal-price" class="mb-2"></p>
+      <p id="modal-category" class="mb-4"></p>
+      <p id="modal-description" class="text-gray-700">More details about the product can be placed here.</p>
+    </div>
+  </div>
+
   <!-- JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -96,7 +126,8 @@
         document.getElementById("cookie-banner").style.display = "none";
       });
 
-      document.getElementById("menu-toggle").addEventListener("click", function () {
+      // Optional: Mobile menu toggle if you add an element with id "menu-toggle"
+      document.getElementById("menu-toggle")?.addEventListener("click", function () {
         const menu = document.getElementById("mobile-menu");
         menu.classList.toggle("hidden");
       });
@@ -119,6 +150,7 @@
       setInterval(createBubble, 500);
     }
 
+    // Function to create product cards
     function CreateProduct(title, price, image, category) {
       const productCard = document.createElement('div');
       productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform transition duration-300 md:hover:scale-105 product-card glow-effect";
@@ -144,22 +176,37 @@
       productCategory.className = "mt-1 text-sm text-gray-600";
       productCategory.innerText = `Category: ${category}`;
 
-      const viewDetailsButton = document.createElement('a');
-      viewDetailsButton.href = "#"; 
+      const viewDetailsButton = document.createElement('button');
       viewDetailsButton.className = "mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition";
       viewDetailsButton.innerText = "View Details";
+
+      // Open modal and populate product details when clicked
+      viewDetailsButton.addEventListener("click", function(e) {
+         e.preventDefault();
+         document.getElementById("modal-title").innerText = title;
+         document.getElementById("modal-image").src = image;
+         document.getElementById("modal-price").innerText = "Price: $" + price;
+         document.getElementById("modal-category").innerText = "Category: " + category;
+         document.getElementById("product-modal").classList.add("active");
+      });
 
       infoContainer.appendChild(productTitle);
       infoContainer.appendChild(productPrice);
       infoContainer.appendChild(productCategory);
       infoContainer.appendChild(viewDetailsButton);
-      
+
       productCard.appendChild(img);
       productCard.appendChild(infoContainer);
 
       document.getElementById("products").appendChild(productCard);
     }
 
+    // Close the modal when clicking the close button
+    document.getElementById("close-modal").addEventListener("click", function() {
+      document.getElementById("product-modal").classList.remove("active");
+    });
+
+    // Real-time search functionality
     document.getElementById("searchInput").addEventListener("input", function() {
       const searchQuery = this.value.toLowerCase();
       const productCards = document.querySelectorAll(".product-card");
@@ -169,6 +216,11 @@
       });
     });
 
+    // Create sample products
+    CreateProduct("Smartphone", 300.00, "smartphone.jpg", "Electronics");
+    CreateProduct("T-shirt", 20.00, "tshirt.jpg", "Clothing");
+    CreateProduct("Lamp", 50.00, "lamp.jpg", "Home & Garden");
+    CreateProduct("Toy Car", 10.00, "toycar.jpg", "Toys");
     CreateProduct("Smartphone", 300.00, "smartphone.jpg", "Electronics");
     CreateProduct("T-shirt", 20.00, "tshirt.jpg", "Clothing");
     CreateProduct("Lamp", 50.00, "lamp.jpg", "Home & Garden");
