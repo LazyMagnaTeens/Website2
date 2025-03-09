@@ -12,17 +12,18 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Static gradient background inspired by your sample */
+    /* Enhanced gradient background */
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #1e3c72, #2a5298);
+      background: linear-gradient(to right, #0f4b8e, #2980b9, #8e44ad);
       color: white;
       overflow-x: hidden;
       position: relative;
+      min-height: 100vh;
     }
-    /* Bubble animation for extra visual flair */
+    /* Bubble animation */
     .bubble {
       position: absolute;
       bottom: -100px;
@@ -37,23 +38,24 @@
     }
     /* White glow effect for product cards */
     .glow-effect {
-      box-shadow: 0px 0px 15px 5px rgba(255, 255, 255, 0.9);
+      box-shadow: 0px 0px 20px 8px rgba(255, 255, 255, 0.8);
     }
-
   </style>
 </head>
 <body class="relative">
   <!-- Bubbles Container -->
   <div id="bubbles-container" class="absolute inset-0 z-0"></div>
 
-  <!-- Header with Search & Categories -->
+  <!-- Header -->
   <header class="relative z-10 p-6">
-    <div class="flex justify-center items-center">
-      <!-- Search Bar -->
-      <input id="searchInput" type="text" placeholder="Search products..." class="w-3/4 sm:w-1/2 p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 text-gray-800" />
+    <div class="flex justify-center items-center space-x-4">
+      <!-- Website Title -->
+      <h1 class="text-2xl font-bold">My Dropshipping Store</h1>
+      <!-- Search Box -->
+      <input id="searchInput" type="text" placeholder="Search products..." class="w-full max-w-md p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 text-gray-800" />
     </div>
     <!-- Categories -->
-    <nav class="mt-4">
+    <nav id="mobile-menu" class="mt-4 hidden md:block">
       <ul class="flex justify-center space-x-6">
         <li><a href="#" class="hover:underline">Electronics</a></li>
         <li><a href="#" class="hover:underline">Clothing</a></li>
@@ -66,39 +68,40 @@
 
   <!-- Main Content: Products Grid -->
   <main class="relative z-10 p-4 sm:p-8">
-    <section id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Product cards will be added dynamically -->
+    <section id="products" class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
     </section>
   </main>
 
   <!-- Cookie Consent Banner -->
-<div id="cookie-banner" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
-    <p>This website uses cookies to improve your experience.</p>
+  <div id="cookie-banner" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+    <p class="text-center">This website uses cookies to improve your experience.</p>
     <button id="accept-cookies" class="bg-blue-500 px-3 py-2 rounded text-white hover:bg-blue-600">Accept</button>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (!localStorage.getItem("cookiesAccepted")) {
-            document.getElementById("cookie-banner").style.display = "flex";
-        }
-
-        document.getElementById("accept-cookies").addEventListener("click", function () {
-            localStorage.setItem("cookiesAccepted", "true");
-            document.getElementById("cookie-banner").style.display = "none";
-        });
-    });
-</script>
-
+  </div>
 
   <!-- Footer -->
   <footer class="relative z-10 text-center p-4">
     <p>&copy; 2025 My Dropshipping Store. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript for Bubbles, Dynamic Product Creation, and Search -->
+  <!-- JavaScript -->
   <script>
-    // Bubble effect function
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!localStorage.getItem("cookiesAccepted")) {
+        document.getElementById("cookie-banner").style.display = "flex";
+      } else {
+        document.getElementById("cookie-banner").style.display = "none";
+      }
+      document.getElementById("accept-cookies").addEventListener("click", function () {
+        localStorage.setItem("cookiesAccepted", "true");
+        document.getElementById("cookie-banner").style.display = "none";
+      });
+
+      document.getElementById("menu-toggle").addEventListener("click", function () {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+      });
+    });
+
     function createBubble() {
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
@@ -112,61 +115,51 @@
         bubble.remove();
       }, 15000);
     }
-    setInterval(createBubble, 500);
+    if(window.innerWidth > 480) {
+      setInterval(createBubble, 500);
+    }
 
-    // Function to create a product card dynamically with a category parameter
     function CreateProduct(title, price, image, category) {
-      // Create the product card container with white glow effect
       const productCard = document.createElement('div');
-      productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 product-card glow-effect";
+      productCard.className = "bg-white text-black rounded-lg shadow-lg overflow-hidden transform transition duration-300 md:hover:scale-105 product-card glow-effect";
       productCard.setAttribute("data-name", title);
 
-      // Create the product image
       const img = document.createElement('img');
       img.src = image;
       img.alt = title;
       img.className = "w-full h-48 object-cover";
 
-      // Create the product info container
       const infoContainer = document.createElement('div');
       infoContainer.className = "p-4";
 
-      // Create the product title
       const productTitle = document.createElement('h2');
       productTitle.className = "text-xl font-bold";
       productTitle.innerText = title;
 
-      // Create the product price
       const productPrice = document.createElement('p');
       productPrice.className = "mt-2";
       productPrice.innerText = `$${price}`;
 
-      // Create the product category element
       const productCategory = document.createElement('p');
       productCategory.className = "mt-1 text-sm text-gray-600";
       productCategory.innerText = `Category: ${category}`;
 
-      // Create the "View Details" button
       const viewDetailsButton = document.createElement('a');
-      viewDetailsButton.href = "#"; // Link to the product detail page (update as needed)
+      viewDetailsButton.href = "#"; 
       viewDetailsButton.className = "mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition";
       viewDetailsButton.innerText = "View Details";
 
-      // Append elements to the product info container
       infoContainer.appendChild(productTitle);
       infoContainer.appendChild(productPrice);
       infoContainer.appendChild(productCategory);
       infoContainer.appendChild(viewDetailsButton);
       
-      // Append the image and info container to the product card
       productCard.appendChild(img);
       productCard.appendChild(infoContainer);
 
-      // Append the product card to the products grid
       document.getElementById("products").appendChild(productCard);
     }
 
-    // Real-time search functionality
     document.getElementById("searchInput").addEventListener("input", function() {
       const searchQuery = this.value.toLowerCase();
       const productCards = document.querySelectorAll(".product-card");
@@ -176,7 +169,6 @@
       });
     });
 
-    // Example: Creating products dynamically
     CreateProduct("Smartphone", 300.00, "smartphone.jpg", "Electronics");
     CreateProduct("T-shirt", 20.00, "tshirt.jpg", "Clothing");
     CreateProduct("Lamp", 50.00, "lamp.jpg", "Home & Garden");
@@ -184,4 +176,3 @@
   </script>
 </body>
 </html>
-
