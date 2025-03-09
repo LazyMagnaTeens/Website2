@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Magnate Store</title>
+  <title>My Dropshipping Store</title>
   <!-- Favicon -->
   <link href="logo.png" rel="icon" type="image/png" />
   <!-- Tailwind CSS -->
@@ -12,7 +12,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Animated gradient background with a blueish tone */
+    /* Animated gradient background */
     body {
       background: linear-gradient(180deg, #00aaff, #004d99, #006bb3, #0099cc);
       background-size: 400% 400%;
@@ -47,14 +47,20 @@
   <div id="bubbles-container" class="absolute inset-0 z-0"></div>
 
   <!-- Header -->
-  <header class="relative z-10 text-center p-6">
-    <h1 class="text-3xl sm:text-4xl font-bold">My Dropshipping Store</h1>
+  <header class="relative z-10 p-6">
+    <div class="flex justify-center items-center">
+      <!-- Search Bar -->
+      <input type="text" placeholder="Search products..." class="w-3/4 sm:w-1/2 p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500" />
+      <button class="ml-2 p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Search</button>
+    </div>
+    <!-- Categories -->
     <nav class="mt-4">
-      <ul class="flex flex-wrap justify-center space-x-4 sm:space-x-6">
-        <li><a href="#" class="hover:underline">Home</a></li>
-        <li><a href="#" class="hover:underline">Shop</a></li>
-        <li><a href="#" class="hover:underline">Cart</a></li>
-        <li><a href="#" class="hover:underline">Contact</a></li>
+      <ul class="flex justify-center space-x-6">
+        <li><a href="#" class="hover:underline">Electronics</a></li>
+        <li><a href="#" class="hover:underline">Clothing</a></li>
+        <li><a href="#" class="hover:underline">Home & Garden</a></li>
+        <li><a href="#" class="hover:underline">Toys</a></li>
+        <li><a href="#" class="hover:underline">Sports</a></li>
       </ul>
     </nav>
   </header>
