@@ -12,9 +12,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Background gradient with animation */
+    /* Animated gradient background with a blueish tone */
     body {
-      background: linear-gradient(180deg, #6a0dad, #8a2be2, #4b0082, #0000ff);
+      background: linear-gradient(180deg, #00aaff, #004d99, #006bb3, #0099cc);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       color: white;
@@ -27,7 +27,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    /* Bubble animation for background effects */
+    /* Bubble animation for extra visual flair */
     .bubble {
       position: absolute;
       bottom: -100px;
@@ -48,9 +48,9 @@
 
   <!-- Header -->
   <header class="relative z-10 text-center p-6">
-    <h1 class="text-4xl font-bold">My Dropshipping Store</h1>
+    <h1 class="text-3xl sm:text-4xl font-bold">My Dropshipping Store</h1>
     <nav class="mt-4">
-      <ul class="flex justify-center space-x-6">
+      <ul class="flex flex-wrap justify-center space-x-4 sm:space-x-6">
         <li><a href="#" class="hover:underline">Home</a></li>
         <li><a href="#" class="hover:underline">Shop</a></li>
         <li><a href="#" class="hover:underline">Cart</a></li>
@@ -60,7 +60,7 @@
   </header>
 
   <!-- Main Content -->
-  <main class="relative z-10 p-8">
+  <main class="relative z-10 p-4 sm:p-8">
     <section id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Product Card 1 -->
       <div class="bg-white text-black rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
@@ -84,7 +84,7 @@
           </a>
         </div>
       </div>
-      <!-- Additional products can be added here -->
+      <!-- Add more products as needed -->
     </section>
   </main>
 
